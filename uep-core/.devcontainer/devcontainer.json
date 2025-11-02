@@ -1,0 +1,17 @@
+{
+  "name": "uep-core",
+  "dockerFile": "Dockerfile",
+  "context": "..",
+  "settings": {
+    "python.pythonPath": "/usr/local/bin/python",
+    "python.autoComplete.extraPaths": [
+      "/workspace/src"
+    ]
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-toolsai.jupyter"
+  ],
+  "postCreateCommand": "pip install -r requirements.txt",
+  "remoteUser": "vscode"
+}

@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  uep-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "50051:50051"
+    environment:
+      - ENV=production
+    networks:
+      - uep-network
+
+  uep-client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - uep-server
+    networks:
+      - uep-network
+
+networks:
+  uep-network:
+    driver: bridge

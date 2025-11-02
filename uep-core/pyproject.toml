@@ -1,0 +1,31 @@
+[tool]
+name = "uep-core"
+version = "0.1.0"
+description = "A modular Universal Exchange Protocol (UEP) system for communication between multiple AI models and microservices."
+authors = ["Your Name <youremail@example.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/yourusername/uep-core"
+repository = "https://github.com/yourusername/uep-core"
+keywords = ["UEP", "AI", "microservices", "communication"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+grpcio = "^1.43.0"
+grpcio-tools = "^1.43.0"
+pytest = "^6.2.5"
+pytest-asyncio = "^0.15.1"
+loguru = "^0.5.3"
+
+[tool.poetry.dev-dependencies]
+black = "^21.7b0"
+isort = "^5.9.3"
+mypy = "^0.910"
+flake8 = "^3.9.2"
+
+[tool.poetry.scripts]
+uep-cli = "uep_core.cli:main"
