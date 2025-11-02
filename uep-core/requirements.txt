@@ -3,3 +3,5 @@ grpcio-tools
 pytest
 pytest-asyncio
 loguru
+flask
+pydantic

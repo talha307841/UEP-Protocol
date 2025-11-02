@@ -1,7 +1,7 @@
 import pytest
-from src.uep_core.server import start_server
-from src.uep_core.client import UEPClient
-from src.uep_core.schemas.message import MessageSchema
+from uep_core.server import start_server
+from uep_core.client import UEPClient
+from uep_core.schemas.message import MessageSchema
 
 @pytest.fixture(scope="module")
 def server():

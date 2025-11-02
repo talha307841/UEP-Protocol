@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package uep_core.protocols;
+
+message UEPRequest {
+  string request_id = 1;
+  string type = 2;
+  bytes content = 3;
+  map<string, string> metadata = 4;
+}
+
+message UEPResponse {
+  string response_id = 1;
+  string type = 2;
+  bytes content = 3;
+  map<string, string> metadata = 4;
+}
+
+message ModelRegistration {
+  string model_id = 1;
+  string name = 2;
+  string type = 3;
+  string endpoint = 4;
+}
+
+service UEPExchangeService {
+  rpc RegisterModel (ModelRegistration) returns (UEPResponse);
+  rpc Send (UEPRequest) returns (UEPResponse);
+  rpc Stream (stream UEPRequest) returns (stream UEPResponse);
+}

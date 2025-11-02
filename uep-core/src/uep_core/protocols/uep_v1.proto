@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package uep_core.protocols;
+
+option py_generic_services = true;
+
+message UEPRequest {
+  string request_id = 1;
+  string type = 2;
+  bytes content = 3;
+  map<string, string> metadata = 4;
+}
+
+message UEPResponse {
+  string response_id = 1;
+  string type = 2;
+  bytes content = 3;
+  map<string, string> metadata = 4;
+}
+
+message ModelRegistration {
+  string model_id = 1;
+  string name = 2;
+  string type = 3;
+  string endpoint = 4;
+}
+
+service UEPExchangeService {
+  // Register a model and return an acknowledgement
+  rpc RegisterModel (ModelRegistration) returns (UEPResponse);
+
+  // Unary send
+  rpc Send (UEPRequest) returns (UEPResponse);
+
+  // Bidirectional streaming
+  rpc Stream (stream UEPRequest) returns (stream UEPResponse);
+}

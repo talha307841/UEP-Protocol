@@ -19,3 +19,7 @@ class PluginRegistry:
 
     def list_plugins(self) -> Dict[str, Any]:
         return self._plugins.copy()
+
+
+# Backwards-compatible name used across the codebase/tests
+ModelRegistry = PluginRegistry
