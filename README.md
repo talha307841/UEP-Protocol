@@ -1,244 +1,138 @@
-# 🧠 UEP-Core (Universal Exchange Protocol)
+# 🧠 UEP Protocol — Unified Embedding Protocol for Model-to-Model Communication
 
-**UEP-Core** is a modular, high-performance **gRPC-based communication protocol** that enables **AI models, microservices, and systems** to exchange information seamlessly — whether it’s **text, embeddings, binary data, or metadata**.
+UEP (Unified Embedding Protocol) is a high-performance communication framework that enables **AI models (e.g., LLMs, TTS, ASR, etc.)** to exchange **embeddings and structured messages** efficiently across different runtime environments using **low-latency transports** such as gRPC, HTTP, and MQTT.
 
-This project provides a foundation for building scalable AI ecosystems where multiple models and services can talk to each other efficiently, securely, and asynchronously.
-
----
-
-## 🚀 Features
-
-- ⚙️ **Universal Exchange Layer** — unified interface for text, embeddings, and binary data  
-- 🔗 **gRPC-based Communication** — low latency and type-safe protocol  
-- 🧩 **Modular Handlers** — easily extend to plug in new AI model endpoints  
-- 🧠 **Async Support** — fully asynchronous implementation using `grpc.aio`  
-- 📦 **Model Registration System** — register and discover available models dynamically  
-- 📡 **Bidirectional Streaming** — real-time message exchange  
-- 🧰 **Developer Friendly** — clear structure, typed interfaces, and CI integration  
+It is designed for **model-to-model communication**, allowing systems like **TTS → LLM → Vision Model** to share embeddings directly in real time using **FlatBuffers** or **protobuf-based** binary encoding.
 
 ---
 
-## 🏗️ Project Structure
+## 🚀 Key Features
 
-uep-core/
-├── src/uep_core/
-│ ├── protos/
-│ │ ├── uep.proto # Protocol Buffers definitions
-│ │ └── compiled stubs # Generated gRPC Python stubs
-│ ├── server/
-│ │ ├── grpc_server.py # Asynchronous gRPC server
-│ │ ├── handlers/
-│ │ │ ├── base_handler.py # Base handler abstraction
-│ │ │ └── text_handler.py # Example text handler
-│ ├── client/
-│ │ ├── grpc_client.py # Async gRPC client
-│ └── utils/
-│ └── logger.py # Structured logging utilities
-├── tests/
-│ └── test_grpc_server.py # Unit tests using pytest
-├── requirements.txt # Dependencies
-├── pyproject.toml # Build configuration
-├── Makefile # Developer commands
-├── README.md # This file
-└── .gitignore
-
-yaml
-Copy code
+- ⚡ **Ultra-low-latency transport layer** (gRPC / HTTP / MQTT)
+- 🔄 **Model-to-model communication** via shared embeddings
+- 🧩 **Unified schema layer** (Pydantic + FlatBuffers)
+- 🔐 **Secure and extensible** message transport
+- 🧠 **Model registry** for dynamic model discovery and routing
+- 🧪 **Test-ready modular architecture**
+- 📦 **Pip-installable** package structure (`uep-core`)
 
 ---
 
-## ⚡ Quick Start
+## 📁 Project Structure
 
-### 1️⃣ Clone the Repository
+```
+UEP-Protocol/
+│
+├── uep-core/
+│   ├── src/uep_core/
+│   │   ├── __init__.py
+│   │   ├── client.py
+│   │   ├── cli.py
+│   │   ├── config.py
+│   │   ├── plugins/
+│   │   │   ├── __init__.py
+│   │   │   ├── registry.py          # ModelRegistry implementation
+│   │   ├── transports/
+│   │   │   ├── __init__.py
+│   │   │   ├── base.py              # BaseTransport (abstract class)
+│   │   │   ├── grpc.py              # gRPC transport
+│   │   │   ├── http.py              # HTTP transport
+│   │   │   ├── mqtt.py              # MQTT transport
+│   │   ├── schemas/
+│   │   │   ├── __init__.py
+│   │   │   ├── message.py           # MessageSchema (Pydantic)
+│   │   ├── protocols/
+│   │   │   ├── uep_v1/              # Proto or FlatBuffer definitions
+│   │   │   │   ├── uep_pb2.py
+│   │   │   │   ├── uep_pb2_grpc.py
+│   └── tests/
+│       ├── unit/
+│       │   ├── test_transports.py
+│       │   ├── test_client.py
+│       └── integration/
+│           ├── test_end_to_end.py
+```
+
+---
+
+## ⚙️ Installation
+
 ```bash
-git clone https://github.com/<your-username>/uep-core.git
-cd uep-core
-2️⃣ Create and Activate Virtual Environment
-bash
-Copy code
+# Clone the repo
+git clone https://github.com/yourusername/UEP-Protocol.git
+cd UEP-Protocol/uep-core
+
+# Create a virtual environment
 python3 -m venv .venv
 source .venv/bin/activate
-3️⃣ Install Dependencies
-bash
-Copy code
+
+# Install dependencies
 pip install -r requirements.txt
-🧩 Compile Protocol Buffers
-The .proto file defines all gRPC message types and services.
-To generate the Python gRPC stubs:
 
-bash
-Copy code
-make protos
-Or manually:
-
-bash
-Copy code
-python -m grpc_tools.protoc \
-    -I src/uep_core/protos \
-    --python_out=src/uep_core/protos \
-    --grpc_python_out=src/uep_core/protos \
-    src/uep_core/protos/uep.proto
-🖥️ Run the gRPC Server
-Start the async server:
-
-bash
-Copy code
-make run-server
-Or directly:
-
-bash
-Copy code
-python src/uep_core/server/grpc_server.py
-💬 Run the gRPC Client
-Send test messages using the client:
-
-bash
-Copy code
-make run-client
-Or directly:
-
-bash
-Copy code
-python src/uep_core/client/grpc_client.py
-The client will:
-
-Register a test model
-
-Send a sample message
-
-Receive and display a response
-
-🧪 Run Tests
-All tests use pytest with pytest-asyncio for async support.
-
-bash
-Copy code
-make test
-Or directly:
-
-bash
-Copy code
+# Run tests
 pytest -v
-Ensure pytest is imported in each test file:
+```
 
-python
-Copy code
-import pytest
-🧱 Core Components
-🔹 uep.proto
-Defines all message schemas and RPC services for:
+---
 
-ModelRegistration
+## 🧠 Example Usage
 
-UEPRequest
+```python
+from uep_core.client import UEPClient
 
-UEPResponse
+# Initialize client with gRPC transport
+client = UEPClient(transport="grpc", host="localhost", port=50051)
 
-UEPExchangeService
+# Send embedding to another model
+response = client.send_embedding(model="tts_model", embedding=[0.123, 0.456, 0.789])
+print(response)
+```
 
-🔹 grpc_server.py
-Implements the async gRPC server that:
+---
 
-Registers AI models
+## 🧩 Architecture Overview
 
-Handles incoming requests
+The UEP Protocol enables AI models to communicate using **structured embeddings** encoded via **FlatBuffers** or **protobufs**.  
+Each model (e.g., TTS, LLM, ASR) runs a **UEP microservice** that sends and receives embeddings asynchronously through a transport layer.
 
-Routes data to appropriate handlers (text, embeddings, etc.)
+**Flow Example:**  
+```
+TTS Model → (Embedding) → UEP Transport → LLM Server
+```
 
-🔹 grpc_client.py
-Implements the async gRPC client that:
+Each transport is a plugin that follows a shared interface.  
+New transports or protocols can easily be added using the plugin architecture.
 
-Connects to the UEP server
+---
 
-Sends and receives messages (unary or streaming)
+## 🧪 Testing
 
-🔹 handlers/
-Contains specific handlers for different model types.
-Example: text_handler.py for mock text response or LLM simulation.
+All unit tests and integration tests are located under the `tests/` directory.
 
-🔹 logger.py
-Custom structured logger using loguru for better traceability.
+```bash
+PYTHONPATH=uep-core/src pytest -v
+```
 
-🧰 Makefile Commands
-Command	Description
-make protos	Compile protobuf definitions
-make run-server	Run gRPC server
-make run-client	Run gRPC client
-make test	Run all tests
-make format	Auto-format code using black + isort
+---
 
-🧪 Example RPC Flow
-pgsql
-Copy code
-Client                Server
-  |                      |
-  |--- RegisterModel --->|  (model info saved)
-  |<---- Response --------|
-  |--- SendMessage ------>|  (process request)
-  |<---- Response --------|
-Example message:
+## 🏗️ Packaging
 
-json
-Copy code
-{
-  "request_id": "12345",
-  "type": "text",
-  "content": "Hello, world!",
-  "metadata": {"sender": "client-1"}
-}
-Response:
+To build and install `uep-core` locally as a pip package:
 
-json
-Copy code
-{
-  "response_id": "abcde",
-  "type": "text",
-  "content": "Echo: Hello, world!"
-}
-🧩 CI/CD Pipeline
-Located at .github/workflows/ci.yml:
+```bash
+cd uep-core
+python -m build
+pip install dist/uep_core-*.whl
+```
 
-Installs dependencies
+---
 
-Compiles protobuf files
+## 🤝 Contributing
 
-Runs pytest
+Contributions are welcome! Please open an issue or PR on GitHub for any feature requests or bug reports.
 
-Lints code with black and flake8
+---
 
-Runs on every push and pull request
+## 📜 License
 
-🧠 Tech Stack
-Component	Technology
-Language	Python 3.10+
-RPC Framework	gRPC + Protobuf
-Async Runtime	grpc.aio
-Testing	pytest, pytest-asyncio
-Logging	loguru
-CI/CD	GitHub Actions
-
-📚 Future Enhancements
-🔒 Add authentication & encryption layers
-
-🧠 Add LLM/Embedding handlers (e.g., OpenAI, Hugging Face)
-
-📡 Add WebSocket gateway for browser interaction
-
-📈 Add monitoring via Prometheus & Grafana
-
-🧩 Add FlatBuffers integration for ultra-fast binary data
-
-🤝 Contributing
-Contributions are welcome!
-Please fork this repo, make your changes, and submit a pull request.
-Ensure all tests pass before submitting.
-
-🧾 License
-This project is licensed under the MIT License — see the LICENSE file for details.
-
-💡 Author
-Muhammad Talha Yousaf
-📧 muhammadtalhayousaf3@gmail.com
-💼 LinkedIn
-
-🧩 UEP-Core — bridging AI models with a universal communication protocol.
+MIT License © 2025 — Muhammad Talha Yousaf  
